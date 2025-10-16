@@ -1,0 +1,40 @@
+name: Cypress Components
+
+on:
+  push:
+    branches: [main, develop, qa]
+  pull_request:
+    branches: [main, develop, qa]
+
+jobs:
+  component-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkput de codigo
+        uses: actions/checkout@v4
+
+      - name: Setup node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Instalar dependencias
+        run: npm install
+
+      - name: Executar testes de Components
+        run: npx cypress run --component
+
+      - name: Salvar videos se falhar
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Components-videos
+          path: cypress/videos
+
+      - name: Salvar Screeshots se falhar
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Components-screenshots
+          path: cypress/screenshots

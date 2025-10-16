@@ -87,4 +87,4 @@ describe('<AddCard />', () => {
 
     cy.alertErrorHaveText('CVV deve ter 3 ou 4 dígitos');
   })
-})
+})  
